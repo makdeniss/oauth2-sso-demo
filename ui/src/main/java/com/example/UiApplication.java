@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.RequestEntity;
@@ -25,13 +27,14 @@ import java.util.List;
 
 @SpringBootApplication
 @EnableOAuth2Sso
+@EnableEurekaClient
 public class UiApplication {
 
     @Controller
     static class HomeController {
         @Autowired
         OAuth2RestTemplate restTemplate;
-        @Value("${messages.url:http://localhost:7777}/api")
+        @Value("${messages.url:http://resource-service/api}")
         String messagesUrl;
 
         @RequestMapping("/")
@@ -58,7 +61,6 @@ public class UiApplication {
         public LocalDateTime createdAt;
     }
 
-
     public static void main(String[] args) {
         SpringApplication.run(UiApplication.class, args);
     }
@@ -70,6 +72,7 @@ public class UiApplication {
     }
 
     @Bean
+    @LoadBalanced
     OAuth2RestTemplate oauth2RestTemplate(OAuth2ClientContext oauth2ClientContext, OAuth2ProtectedResourceDetails details) {
         return new OAuth2RestTemplate(details, oauth2ClientContext);
     }

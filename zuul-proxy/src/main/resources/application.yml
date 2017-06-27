@@ -1,0 +1,30 @@
+zuul:
+  ignoredServices: '*'
+  host:
+    connect-timeout-millis: 5000
+    socket-timeout-millis: 5000
+
+  routes:
+    auth-service:
+        path: /auth-service/**
+        serviceId: auth-service
+        stripPrefix: false
+        sensitiveHeaders:
+
+    resource-service:
+        path: /resource-service/**
+        serviceId: resource-service
+        stripPrefix: false
+        sensitiveHeaders:
+
+    ui-service:
+        path: /ui-service/**
+        serviceId: ui-service
+        stripPrefix: false
+        sensitiveHeaders:
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway

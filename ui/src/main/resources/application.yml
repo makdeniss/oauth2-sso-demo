@@ -1,6 +1,6 @@
 auth-server: http://localhost:9999/uaa
 server:
-  port: 8080
+  port: 5555
 security:
   basic:
     enabled: false
@@ -11,7 +11,11 @@ security:
       access-token-uri: ${auth-server}/oauth/token
       user-authorization-uri: ${auth-server}/oauth/authorize
       scope: read, write
+#      pre-established-redirect-uri: http://localhost:8080/ui-service/login
+#      registered-redirect-uri: http://localhost:8080/ui-service/login
+#      use-current-uri: false
     resource:
+      load-balanced: true
       token-info-uri: ${auth-server}/oauth/check_token
 logging:
   level:
@@ -19,5 +23,6 @@ logging:
 spring:
   jackson:
     date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
+  application.name: ui-service
 
 

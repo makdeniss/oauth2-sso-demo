@@ -15,3 +15,6 @@ server:
 logging:
   level:
     org.springframework.security: DEBUG
+
+spring.application.name: auth-service
+eureka.client.serviceUrl.defaultZone: http://localhost:8761/eureka/
